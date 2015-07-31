@@ -8,7 +8,7 @@
  * @param int* lenght: variable en la cual se almacenara la longitud de la secuencia
  * @param char* name: variable en la cual se almacenara el nombre de la secuencia
  */
-void ask(int* lenght, char* name, pthread_mutex_t* mutualExclusion){
+void ask(int* lenght, char* name[], pthread_mutex_t* mutualExclusion){
     pthread_mutex_lock(mutualExclusion);
     //Solicita longitud
     printf("%s\n",LENGHT_SENTENCE);
@@ -23,7 +23,7 @@ void ask(int* lenght, char* name, pthread_mutex_t* mutualExclusion){
  * @param int* lenght: variable que direcciona la longitud de la secuencia
  * @param char* name: variable que direcciona el nombre de la secuencia
  */
-void generate(int* lenght, char* name, pthread_mutex_t* mutualExclusion){
+void generate(int* lenght, char* name[], pthread_mutex_t* mutualExclusion){
     pthread_mutex_lock(mutualExclusion);
     pthread_mutex_unlock(mutualExclusion);
 }

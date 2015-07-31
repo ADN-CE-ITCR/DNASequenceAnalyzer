@@ -9,8 +9,8 @@
 #include <pthread.h>
 #include <time.h>
 
-void ask(int*, char*, pthread_mutex_t*);
-void generate(int*, char*, pthread_mutex_t*);
+void ask(int*, char*[], pthread_mutex_t*);
+void generate(int*, char*[], pthread_mutex_t*);
 void* receiverThread(void*);
 
 #endif //DNASEQUENCEGENERATOR_GENERATORFUNCTIONS_H

@@ -1,1 +1,1 @@
--std=c11-Wformat-security
+[-std=c11] [-Wformat-security] [-Wformat=]
