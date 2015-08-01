@@ -14,4 +14,5 @@ void createDirectory(){
     strcat(PROJECT_PATH, PROJECT_NAME);
     //Crea directorio
     mkdir(PROJECT_PATH, 0777);
+    strcat(PROJECT_PATH, "/");
 }
