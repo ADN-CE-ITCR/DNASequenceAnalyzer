@@ -12,6 +12,7 @@
 #define HELLO "Hello, welcome to"
 #define GOODBYE "Goodbye, thanks for your preference."
 #define ENCODING_BASE 4
+#define MAX_NAME_LENGHT 28
 
 const char* PROJECT_PATH;
 
