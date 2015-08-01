@@ -4,6 +4,31 @@
 
 #include "generatorFunctions.h"
 
+/**@brief escribe una letra a partir de un numero
+ * @param int number: letra
+ * @param FILE* file: archivo
+ */
+void write(int number, FILE* file){
+    switch(number){
+        case 0:
+            printf("A");
+            fputc('A', file);
+            break;
+        case 1:
+            printf("C");
+            fputc('C', file);
+            break;
+        case 2:
+            printf("G");
+            fputc('G', file);
+            break;
+        case 3:
+            printf("T");
+            fputc('T', file);
+            break;
+    }
+}
+
 /**@brief calcula la potencia de un numero
  * @param int base: numero a elevar
  * @param power: potencia
@@ -46,22 +71,9 @@ void generate(int* lenght, char* name, pthread_mutex_t* mutualExclusion){
     printf("%s \n", tmpName);
     if(sequence = fopen(tmpName,"w+")) {
         printf(SUCCESSFUL);
-        //Crea el buffer que guardara las letras en base cuatro
-        unsigned char buffer = 0;
         int i;
         for (i = 0; i < *lenght; i++) {
-            //Va llenando el buffer con el formato decimal de un numero en base cuatro
-            //Los bytes se iran llenando de izquierda a derecha (1 -> 13 -> 132 -> 1321)
-            //Cada digito en base cuatro es una letra, por lo que se almacenan cuatro por byte
-            int tmp = rand() % ENCODING_BASE;
-            printf("%d, ", tmp);
-            buffer += tmp * (getPow(ENCODING_BASE, (ENCODING_BASE - 1) - i % ENCODING_BASE));
-            //Cuando i es multiplo de 4 (residuo 3 por el 0), se debe reiniciar el byte
-            if (i % ENCODING_BASE == (ENCODING_BASE - 1) || i == *lenght - 1) {
-                printf(".. (decimal = %d) ..", buffer);
-                fputc(buffer, sequence);
-                buffer = 0;
-            }
+            write(rand() % ENCODING_BASE, sequence);
         }
         printf("\n");
     }else printf(FILE_ALREADY_EXISTS);
@@ -73,7 +85,7 @@ void generate(int* lenght, char* name, pthread_mutex_t* mutualExclusion){
 
 /**@brief se encarga de controlar las iteraciones realizadas
  * @param void* detach: parametro para detach de pthread
- * @return 0 significa correcto
+ * @return void* detach significa correcto
  */
 void* receiverThread(void* detach){
     //Da la bienvenida e inicializa el random

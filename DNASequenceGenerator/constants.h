@@ -5,12 +5,6 @@
 #ifndef DNASEQUENCEGENERATOR_CONSTANTS_H
 #define DNASEQUENCEGENERATOR_CONSTANTS_H
 
-#include <stdlib.h>
-
-#define PROJECT_NAME "DNASequenceGenerator"
-#define FILE_EXT ".dna"
-#define HELLO "Hello, welcome to"
-#define GOODBYE "Goodbye, thanks for your preference."
 #define LENGHT_SENTENCE "Please, input the lenght of the desired sequence."
 #define FILE_NAME_SENTENCE "Please, input a name with one to twenty eight characters of the desired sequence."
 #define FILE_CREATED_PART_ONE "The sequence have been generated and is stored on home/DNASequenceGenerator/"
@@ -20,10 +14,6 @@
 #define SUCCESSFUL "The file has been successfully created with the following content: \n"
 #define MAX_NAME_LENGHT 28
 #define MAX_SEQUENCE_LENGHT 1000000
-#define ENCODING_BASE 4
 
-const char* PROJECT_PATH;
-
-void createDirectory();
 
 #endif //DNASEQUENCEGENERATOR_CONSTANTS_H
