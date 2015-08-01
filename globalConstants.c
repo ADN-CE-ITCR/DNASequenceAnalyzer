@@ -2,7 +2,7 @@
 // Created by roberto on 31/07/15.
 //
 
-#include "constants.h"
+#include "globalConstants.h"
 
 /**@brief crea la direccion en home que sera utilizada para el output
  */
