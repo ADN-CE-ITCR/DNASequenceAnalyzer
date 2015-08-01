@@ -12,7 +12,6 @@
 #define DO_YOU_WANT_TO_CONTINUE "Please input any number, except for '0', if you want to continue."
 #define FILE_ALREADY_EXISTS "Error, a file with the specified name, already exists."
 #define SUCCESSFUL "The file has been successfully created with the following content: \n"
-#define MAX_NAME_LENGHT 28
 #define MAX_SEQUENCE_LENGHT 1000000
 
 
