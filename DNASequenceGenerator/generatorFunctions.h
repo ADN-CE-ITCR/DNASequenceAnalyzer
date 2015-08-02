@@ -5,11 +5,8 @@
 #ifndef DNASEQUENCEGENERATOR_GENERATORFUNCTIONS_H
 #define DNASEQUENCEGENERATOR_GENERATORFUNCTIONS_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "constants.h"
 #include "../globalConstants.h"
-#include <pthread.h>
 #include <time.h>
 
 void write(int, FILE*);

@@ -5,10 +5,15 @@
 #ifndef DNASEQUENCEGENERATOR_ALIGNERFUNCTIONS_H
 #define DNASEQUENCEGENERATOR_ALIGNERFUNCTIONS_H
 
-#include "pthread.h"
-#include "stdlib.h"
+#include "../globalConstants.h"
+#include "constants.h"
 
-char intToDNA(int);
+struct SequenceToAlign{
+    int** sequencesLenght;
+    char** sequences;
+    char* scoringMatrix;
+};
+void getSequences(struct SequenceToAlign*, pthread_mutex_t*);
 void* alignerThread(void*);
 char* fillMatrix(int,int,char*,char*);
 
