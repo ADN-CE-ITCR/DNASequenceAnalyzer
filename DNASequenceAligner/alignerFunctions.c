@@ -5,6 +5,8 @@
 #include "alignerFunctions.h"
 
 void analyzeData(struct SequenceToAlign* toAlign){
+    int columns= **(toAlign->sequencesLenght) + 2;
+    int rows= **(toAlign->sequencesLenght + 1) + 2;
     int index;
     for(index = 0; index < **(toAlign->sequencesLenght) + 2; index++) *(toAlign->scoringMatrix + index*rows) = D*index;
     for (index = 0; index < **(toAlign->sequencesLenght + 1) + 2; index++) *(toAlign->scoringMatrix + index) = D*index;
