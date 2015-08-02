@@ -17,10 +17,6 @@ void analyzeData(struct SequenceToAlign* toAlign){
  * @param struct SequenceToAlign toAlign: estructura donde se guardaran los datos
  */
 void getSequences(struct SequenceToAlign* toAlign){
-    toAlign->sequences = (char**)malloc(2*sizeof(char*));
-    toAlign->sequencesLenght = (int**)malloc(2*sizeof(int*));
-    *(toAlign->sequencesLenght) = (int*)malloc(sizeof(int));
-    *(toAlign->sequencesLenght+1) = (int*)malloc(sizeof(int));
     int i;
     for(i = 0; i < 2; i++){
         char* tmpName = malloc(strlen(PROJECT_PATH)+MAX_NAME_LENGHT+4);
@@ -70,11 +66,19 @@ void* alignerThread(void* detach){
         pthread_mutex_lock(mutualExclusion);
         //Obtiene los datos, llena la estructura con secuencias y matriz de resultados
         struct SequenceToAlign toAlign;
+        toAlign.sequences = (char**)malloc(2*sizeof(char*));
+        toAlign.sequencesLenght = (int**)malloc(2*sizeof(int*));
+        *(toAlign.sequencesLenght) = (int*)malloc(sizeof(int));
+        *(toAlign.sequencesLenght+1) = (int*)malloc(sizeof(int));
         getSequences(&toAlign);
         analyzeData(&toAlign);
+        free(*toAlign.sequences);
+        free(toAlign.sequences);
+        free(*toAlign.sequencesLenght);
+        free(toAlign.sequencesLenght);
+        nanosleep(&timeController,NULL);
         printf("%s \n",DO_YOU_WANT_TO_CONTINUE);
         scanf("%d",excecuting);
-        nanosleep(&timeController,NULL);
         pthread_mutex_unlock(mutualExclusion);
     }
     //Libera memoria
