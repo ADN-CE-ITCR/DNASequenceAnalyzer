@@ -13,8 +13,9 @@ struct SequenceToAlign{
     char** sequences;
     char* scoringMatrix;
 };
-void getSequences(struct SequenceToAlign*, pthread_mutex_t*);
+void getSequences(struct SequenceToAlign*);
 void* alignerThread(void*);
 char* fillMatrix(int,int,char*,char*);
+void analyzeData(struct SequenceToAlign*);
 
 #endif //DNASEQUENCEGENERATOR_ALIGNERFUNCTIONS_H

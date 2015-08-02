@@ -4,24 +4,19 @@
 
 #include "alignerFunctions.h"
 
-/**@brief crea, llena y retorna la matriz
- * @param int lenghtOne: longitud uno
- * @param int lenghtTwo: longitud dos
- * @param char* secuenceOne: secuencia uno
- * @param char* sequenceTwo: secuencia dos
- * @return char* matrix: matriz llena
- */
-char* fillMatrix(int lenghtOne, int lenghtTwo, char* secuenceOne, char* sequenceTwo){
-    char matrix[lenghtOne][lenghtTwo];
-    return matrix;
+void analyzeData(struct SequenceToAlign* toAlign){
+    int columns= **(toAlign->sequencesLenght) + 2;
+    int rows= **(toAlign->sequencesLenght + 1) + 2;
+    int index;
+    for(index = 0; index < columns; index++) *(toAlign->scoringMatrix + index*rows) = D*index;
+    for (index = 0; index < rows; index++) *(toAlign->scoringMatrix + index) = D*index;
+    printf(toAlign->scoringMatrix);
 }
 
 /**@brief obtiene los nombres y abre los archivos
  * @param struct SequenceToAlign toAlign: estructura donde se guardaran los datos
  */
-void getSequences(struct SequenceToAlign* toAlign, pthread_mutex_t* mutex){
-    pthread_mutex_lock(mutex);
-    toAlign = (struct SequenceToAlign*)malloc(sizeof(struct SequenceToAlign));
+void getSequences(struct SequenceToAlign* toAlign){
     toAlign->sequences = (char**)malloc(2*sizeof(char*));
     toAlign->sequencesLenght = (int**)malloc(2*sizeof(int*));
     *(toAlign->sequencesLenght) = (int*)malloc(sizeof(int));
@@ -38,12 +33,11 @@ void getSequences(struct SequenceToAlign* toAlign, pthread_mutex_t* mutex){
         free(fileNameBuffer);
         FILE* file;
         if(file=fopen(tmpName,"r")){
-            fseek(file,0L,SEEK_END);
+            fseek(file, 0, SEEK_END);
             **(toAlign->sequencesLenght + i) = ftell(file);
+            fseek(file, 0, SEEK_SET);
             *(toAlign->sequences + i) = malloc(**(toAlign->sequencesLenght + i));
-            int j;
-            //TODO: arreglar lectura
-            for(j = 0; j < **(toAlign->sequencesLenght + i) ; j++) *(*(toAlign->sequences + i)+ j) = (char)fgetc(file);
+            fgets(*(toAlign->sequences + i),**(toAlign->sequencesLenght + i),file);
             printf("%d \n",**(toAlign->sequencesLenght + i));
             printf(SUCCESSFUL,i,*(toAlign->sequences+i));
             fclose(file);
@@ -53,7 +47,7 @@ void getSequences(struct SequenceToAlign* toAlign, pthread_mutex_t* mutex){
         }
         free(tmpName);
     }
-    pthread_mutex_unlock(mutex);
+    toAlign->scoringMatrix = calloc(**toAlign->sequencesLenght, **(toAlign->sequencesLenght + 1));
 }
 
 /**@brief se encarga de controlar las iteraciones realizadas
@@ -68,14 +62,20 @@ void* alignerThread(void* detach){
     pthread_mutex_t* mutualExclusion = (pthread_mutex_t*)(malloc(sizeof(pthread_mutex_t)));
     pthread_mutex_init(mutualExclusion,NULL);
     //Crea variables e inicia loop que pregunta por los datos, genera la secuencia
-    struct SequenceToAlign* toAlign;
     char* excecuting = (char*)malloc(sizeof(char));
     *excecuting = 1;
+    struct timespec timeController;
+    timeController.tv_sec=1;
     while(*excecuting){
+        pthread_mutex_lock(mutualExclusion);
         //Obtiene los datos, llena la estructura con secuencias y matriz de resultados
-        getSequences(toAlign, mutualExclusion);
+        struct SequenceToAlign toAlign;
+        getSequences(&toAlign);
+        analyzeData(&toAlign);
         printf("%s \n",DO_YOU_WANT_TO_CONTINUE);
         scanf("%d",excecuting);
+        nanosleep(&timeController,NULL);
+        pthread_mutex_unlock(mutualExclusion);
     }
     //Libera memoria
     free(mutualExclusion);
