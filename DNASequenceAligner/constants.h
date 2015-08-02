@@ -16,6 +16,8 @@
 #define INPUT_SECOND_FILENAME "Ingrese el nombre del Segundo archivo (incluendo su extencion)"
 #define COMMON_EXTENSION ".dna"
 #define EXTENTION_ERROR "Wrong file or file type"
+#define DATA_ERROR "Wrong data or data corruption"
+#define DATA_ERROR2 "Wrong data or data corruption2222"
 
 
 #endif //DNASEQUENCEGENERATOR_CONSTANTS_H
