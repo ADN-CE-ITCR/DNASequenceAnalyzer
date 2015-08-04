@@ -10,19 +10,19 @@
  */
 void write(int number, FILE* file){
     switch(number){
-        case 0:
+        case A:
             printf("A");
             fputc('A', file);
             break;
-        case 1:
+        case C:
             printf("C");
             fputc('C', file);
             break;
-        case 2:
+        case G:
             printf("G");
             fputc('G', file);
             break;
-        case 3:
+        case T:
             printf("T");
             fputc('T', file);
             break;
@@ -105,7 +105,7 @@ void* receiverThread(void* detach){
         ask(sequenceLenght, fileName, mutualExclusion);
         generate(sequenceLenght, fileName, mutualExclusion);
         printf("%s \n",DO_YOU_WANT_TO_CONTINUE);
-        scanf("%d",excecuting);
+        scanf("%s",excecuting);
     }
     //Libera memoria
     free(mutualExclusion);

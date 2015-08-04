@@ -18,6 +18,15 @@
 #define EXTENTION_ERROR "Wrong file or file type"
 #define DATA_ERROR "Wrong data or data corruption"
 #define DATA_ERROR2 "Wrong data or data corruption2222"
-
+#define THIS_IS "This is %i"
+#define A_STR 'A'
+#define A_INT 1
+#define C_STR 'C'
+#define C_INT 3
+#define G_STR 'G'
+#define G_INT 5
+#define T_STR 'T'
+#define T_INT 7
+#define PARAMETER_ERROR "Sorry, there is a mistake on the paramets. \n"
 
 #endif //DNASEQUENCEGENERATOR_CONSTANTS_H

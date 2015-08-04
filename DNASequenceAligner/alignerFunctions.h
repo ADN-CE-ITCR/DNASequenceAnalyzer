@@ -9,12 +9,14 @@
 #include "constants.h"
 #include <time.h>
 
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 struct SequenceToAlign{
     int** sequencesLenght;
     char** sequences;
 };
 void getSequences(struct SequenceToAlign*);
-void* alignerThread(void*);
+void align(char*[]);
 char* fillMatrix(int,int,char*,char*);
 void analyzeData(struct SequenceToAlign*);
 int matchingScore(char,char);

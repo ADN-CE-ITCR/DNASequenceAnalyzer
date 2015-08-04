@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "../globalConstants.h"
 #include <time.h>
+#include "pthread.h"
 
 void write(int, FILE*);
 void ask(int*, char*, pthread_mutex_t*);
