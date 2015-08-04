@@ -262,34 +262,29 @@ void analyzeData(struct SequenceToAlign* toAlign) {
 
 }
 
-/**@brief store the parameters
+
+/**@brief obtiene los nombres y abre los archivos
+ * @param struct SequenceToAlign toAlign: estructura donde se guardaran los datos
  */
-void getParameters(struct SequenceToAlign* toAlign, char* argv[]){
+void getSequences(struct SequenceToAlign* toAlign, char* argv[]){
 	toAlign->sequences = (char**) malloc(2 * sizeof(char*));
 	toAlign->sequencesLenght = (int**) malloc(2 * sizeof(int*));
 	*(toAlign->sequencesLenght) = (int*) malloc(sizeof(int));
 	*(toAlign->sequencesLenght + 1) = (int*) malloc(sizeof(int));
 	int i;
 	for(i = 1; i < 3; i++){
-		*(toAlign->sequences + i - 1) = malloc(strlen(PROJECT_PATH) + MAX_NAME_LENGHT);
+		*(toAlign->sequences + i - 1) = malloc(strlen(PROJECT_PATH) + strlen(argv[i]) + 3);
 		strcpy(*(toAlign->sequences + i - 1), PROJECT_PATH);
 		strcat(*(toAlign->sequences + i - 1), argv[i]);
 	}
-}
-
-/**@brief obtiene los nombres y abre los archivos
- * @param struct SequenceToAlign toAlign: estructura donde se guardaran los datos
- */
-void getSequences(struct SequenceToAlign* toAlign) {
-	int i;
 	for (i = 0; i < 2; i++) {
 		FILE* file;
-		if (file = fopen(toAlign->sequences + i, "r")) {
+		if (file = fopen(*(toAlign->sequences + i), "r")) {
 			fseek(file, 0, SEEK_END);
 			**(toAlign->sequencesLenght + i) = ftell(file);
 			fseek(file, 0, SEEK_SET);
 			fclose(file);
-		}else printf(FILENAME_ERROR);
+		}else printf(FILENAME_ERROR, *(toAlign->sequences + i));
 	}
 }
 
@@ -301,8 +296,7 @@ void align(char* argv[]) {
 	createDirectory();
 	printf("%s %s \n", HELLO, PROJECT_NAME);
 	struct SequenceToAlign toAlign;
-	getParameters(&toAlign,argv);
-	getSequences(&toAlign);
+	getSequences(&toAlign,argv);
 	analyzeData(&toAlign);
 	printf("%s", GOODBYE);
 }

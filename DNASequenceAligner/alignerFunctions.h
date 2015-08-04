@@ -15,7 +15,7 @@ struct SequenceToAlign{
     int** sequencesLenght;
     char** sequences;
 };
-void getSequences(struct SequenceToAlign*);
+void getSequences(struct SequenceToAlign*,char*[]);
 void align(char*[]);
 char* fillMatrix(int,int,char*,char*);
 void analyzeData(struct SequenceToAlign*);
