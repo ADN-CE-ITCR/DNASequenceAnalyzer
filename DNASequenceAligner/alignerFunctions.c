@@ -3,7 +3,11 @@
 //
 
 #include "alignerFunctions.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#define MAX(a,b) (((a)>(b))?(a):(b))
 /**
  * @brief Imprime la matriz con todos los scores calculados
  * @param int columns: Cantidad de columnas
@@ -12,9 +16,8 @@
  *  */
 void printMatrix(int columns, int rows, int matrix[columns][rows]) {
 	//Imprime la matriz
-	int i, j;
-	for (i = 0; i < columns; ++i) {
-		for (j = 0; j < rows; ++j) {
+	for (int i = 0; i < columns; ++i) {
+		for (int j = 0; j < rows; ++j) {
 			printf(" %i ", matrix[i][j]);
 		}
 		printf("\n");
@@ -27,10 +30,9 @@ void printMatrix(int columns, int rows, int matrix[columns][rows]) {
  * @param int matrix: matriz a inicializar
  * */
 void matrixInit(int columns, int rows, int matrix[columns][rows]) {
-	int i, j;
 	//Inicializa la matriz en ceros
-	for (i = 0; i < columns; ++i) {
-		for (j = 0; j < rows; ++j) {
+	for (int i = 0; i < columns; ++i) {
+		for (int j = 0; j < rows; ++j) {
 			if (i == 0)
 				matrix[i][j] = D * j;
 			else if (j == 0)
@@ -46,25 +48,26 @@ void matrixInit(int columns, int rows, int matrix[columns][rows]) {
  * @return Valor correspondiente al caracter
  * */
 int getCharValue(char newChar1) {
-	int tempvalue = NULL;
+	int tempvalue = 0;
 	switch (newChar1) {
-		case A_STR:
-			tempvalue = A_INT;
-			break;
-		case G_STR:
-			tempvalue = G_INT;
-			break;
-		case C_STR:
-			tempvalue = C_INT;
-			break;
-		case T_STR:
-			tempvalue = T_INT;
-			break;
-		default:
-			printf(THIS_IS, newChar1);
-			perror(DATA_ERROR2);
-			exit(1);
-			break;
+	case 'A':
+		tempvalue = 1;
+		break;
+	case 'G':
+		tempvalue = 3;
+		break;
+	case 'C':
+		tempvalue = 5;
+		break;
+	case 'T':
+		tempvalue = 7;
+		break;
+	default:
+
+		printf("ESTE ES L VALOR %c", newChar1);
+		perror(DATA_ERROR2);
+		//exit(1);
+		break;
 	}
 	return tempvalue;
 }
@@ -109,7 +112,7 @@ int getScore(int newUniqueID) {
 		break;
 	default:
 		perror(DATA_ERROR);
-		exit(1);
+		//	exit(1);
 		break;
 
 	}
@@ -122,7 +125,7 @@ int getScore(int newUniqueID) {
  * @return Score resultante
  * */
 int matchingScore(char newChar1, char newChar2) {
-	int finalScore = NULL;
+	int finalScore = 0;
 	int tempCharValue1 = getCharValue(newChar1);
 	int tempCharValue2 = getCharValue(newChar2);
 	finalScore = getScore(tempCharValue1 * tempCharValue2);
@@ -139,9 +142,12 @@ void fillScores(int columns, int rows, int matrix[columns][rows],
 		struct SequenceToAlign* toAlign, char* DNA1, char* DNA2) {
 	//Matrix Calc
 
-	int leftScore, upperScore, diagonalScore, tempScore, i, j;
-	for (i = 1; i < columns; ++i) {
-		for (j = 1; j < rows; ++j) {
+	int leftScore;
+	int upperScore;
+	int diagonalScore;
+	int tempScore;
+	for (int i = 1; i < columns; ++i) {
+		for (int j = 1; j < rows; ++j) {
 			leftScore = matrix[i][j - 1] + (-5);
 			upperScore = matrix[i - 1][j] + (-5);
 			char uno = DNA1[i - 1];
@@ -153,7 +159,6 @@ void fillScores(int columns, int rows, int matrix[columns][rows],
 		}
 	}
 }
-
 
 /**
  * @brief Imprime los char Array que tienen los alineamientos
@@ -186,15 +191,15 @@ void printAligment(int columns, int rows, char topAligment[columns * rows],
  *   @param char* DNA1: Secuencia 1
  *   @param char* DNA2: Secuencia 2
  * */
-void getAligments(int columns, int rows, int scoresMatrix[columns][rows], char* DNA1,
-		char*DNA2) {
+void getAligments(int columns, int rows, int scoresMatrix[columns][rows],
+		char* DNA1, char*DNA2) {
 	char topAligment[columns * rows];
 	memset(topAligment, 0, columns * rows * sizeof(char));
 	char bottomAligment[columns * rows];
 	memset(bottomAligment, 0, columns * rows * sizeof(char));
 	int xIterator = columns - 1;
 	int yIterator = rows - 1;
-	int charPointer = columns * rows ;
+	int charPointer = columns * rows;
 	int leftScore = 0;
 	int upperScore = 0;
 	int diagonalScore = 0;
@@ -204,7 +209,8 @@ void getAligments(int columns, int rows, int scoresMatrix[columns][rows], char* 
 		char dos = DNA2[yIterator - 1];
 		leftScore = scoresMatrix[xIterator][yIterator - 1] + (-5);
 		upperScore = scoresMatrix[xIterator - 1][yIterator] + (-5);
-		diagonalScore = scoresMatrix[xIterator - 1][yIterator - 1] + matchingScore(uno, dos);
+		diagonalScore = scoresMatrix[xIterator - 1][yIterator - 1]
+				+ matchingScore(uno, dos);
 		if (scoresMatrix[xIterator][yIterator] == diagonalScore) {
 			topAligment[charPointer] = DNA2[yIterator - 1];
 			bottomAligment[charPointer] = DNA1[xIterator - 1];
@@ -236,7 +242,6 @@ void getAligments(int columns, int rows, int scoresMatrix[columns][rows], char* 
 	}
 	printAligment(columns, rows, topAligment, bottomAligment);
 
-
 }
 /**
  * @brief lleva acabo las funciones de analisis de las secuencias
@@ -262,29 +267,40 @@ void analyzeData(struct SequenceToAlign* toAlign) {
 
 }
 
-
 /**@brief obtiene los nombres y abre los archivos
  * @param struct SequenceToAlign toAlign: estructura donde se guardaran los datos
  */
-void getSequences(struct SequenceToAlign* toAlign, char* argv[]){
+void getSequences(struct SequenceToAlign* toAlign, char* argv[]) {
+	char** tmpName;// = malloc(strlen(PROJECT_PATH) + MAX_NAME_LENGHT + 4);
+	char* fileNameBuffer = malloc(MAX_NAME_LENGHT);
 	toAlign->sequences = (char**) malloc(2 * sizeof(char*));
+
+	tmpName = (char**) malloc(2 * sizeof(char*));
 	toAlign->sequencesLenght = (int**) malloc(2 * sizeof(int*));
 	*(toAlign->sequencesLenght) = (int*) malloc(sizeof(int));
 	*(toAlign->sequencesLenght + 1) = (int*) malloc(sizeof(int));
 	int i;
-	for(i = 1; i < 3; i++){
-		*(toAlign->sequences + i - 1) = malloc(strlen(PROJECT_PATH) + strlen(argv[i]) + 3);
-		strcpy(*(toAlign->sequences + i - 1), PROJECT_PATH);
-		strcat(*(toAlign->sequences + i - 1), argv[i]);
+	for (i = 1; i < 3; i++) {
+		*(tmpName + i - 1) = malloc(strlen(PROJECT_PATH) + strlen(argv[i]) + 4);
+		strcpy(*(tmpName + i - 1), PROJECT_PATH);
+		strcat(*(tmpName + i - 1), argv[i]);
 	}
 	for (i = 0; i < 2; i++) {
 		FILE* file;
-		if (file = fopen(*(toAlign->sequences + i), "r")) {
+		if (file = fopen(*(tmpName + i), "r")) {
 			fseek(file, 0, SEEK_END);
 			**(toAlign->sequencesLenght + i) = ftell(file);
 			fseek(file, 0, SEEK_SET);
+			*(toAlign->sequences + i) = malloc(
+					**(toAlign->sequencesLenght + i));
+			fgets(*(toAlign->sequences + i), **(toAlign->sequencesLenght + i),
+					file);
+			printf("%d \n", **(toAlign->sequencesLenght + i));
+			printf(SUCCESSFUL, i, *(toAlign->sequences + i));
+
 			fclose(file);
-		}else printf(FILENAME_ERROR, *(toAlign->sequences + i));
+		} else
+			printf(FILENAME_ERROR, *(toAlign->sequences + i));
 	}
 }
 
@@ -296,7 +312,7 @@ void align(char* argv[]) {
 	createDirectory();
 	printf("%s %s \n", HELLO, PROJECT_NAME);
 	struct SequenceToAlign toAlign;
-	getSequences(&toAlign,argv);
+	getSequences(&toAlign, argv);
 	analyzeData(&toAlign);
 	printf("%s", GOODBYE);
 }
