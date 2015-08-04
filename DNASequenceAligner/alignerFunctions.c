@@ -256,11 +256,12 @@ void analyzeData(struct SequenceToAlign* toAlign) {
 	DNA2 = *(toAlign->sequences + 1);
 	int matrix[columns][rows];
 	//Inicializa la matriz en ceros
-	matrixInit(columns, rows, matrix);
+	memset(matrix,0,sizeof(matrix));
+	//matrixInit(columns, rows, matrix);
 	//Matrix Calc
 	fillScores(columns, rows, matrix, toAlign, DNA1, DNA2);
 	//Imprime la matriz
-	printMatrix(columns, rows, matrix);
+	//printMatrix(columns, rows, matrix);
 	//Calculate the Aligments and prints them
 	getAligments(columns, rows, matrix, DNA1, DNA2);
 	printf("EL TAMAÑO ES: %i\n", (int) sizeof(matrix));

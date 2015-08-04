@@ -13,6 +13,7 @@
 
 struct SequenceToAlign{
     int** sequencesLenght;
+
     char** sequences;
 };
 void getSequences(struct SequenceToAlign*,char*[]);
