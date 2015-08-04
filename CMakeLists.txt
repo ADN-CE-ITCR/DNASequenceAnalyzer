@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.0.2)
 
 ######################################
 project(DNASequenceAligner)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c11" -Wformat-security" -Wformat=")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c99" -Wformat-security" -Wformat=")
+ set(CMAKE_C_FLAGS "-std=c99") 
 find_package (Threads)
 set(SOURCE_ALIGNER DNASequenceAligner/main.c
                    DNASequenceAligner/alignerFunctions.c
